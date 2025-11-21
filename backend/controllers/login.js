@@ -24,7 +24,14 @@ export const loginusuario=async (req,res)=> {
 
         // Validacion de inicio de sesio exitoso
 
-        res.status(200).json({message:"inicio de sesion correcto"});
+        res.status(200).json({message:"inicio de sesion correcto",
+         usuario:{
+            id: usuario._id,
+            email:usuario.email,
+            telefono:usuario.telefono
+
+         }
+        })
 
 
     } catch (error) {
