@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../style/output.css">
+  <title>Perfil</title>
+</head>
+<body class="bg-gray-100 flex justify-center py-10">
+
+  <div class="bg-white shadow-xl rounded-2xl p-10 w-full max-w-3xl">
+
+    <!-- Encabezado -->
+    <div class="flex items-center gap-4 mb-8">
+      <div
+        class="w-20 h-20 rounded-full bg-linear-to-r from-blue-600 to-purple-500 
+               flex items-center justify-center text-white text-3xl font-bold">
+               
+        FO
+      </div>
+
+      <div>
+        <h2 class="text-2xl font-bold">Felipe Osorio</h2>
+        <p class="text-gray-500">osorioescobardavidfelipe@gmail.com</p>
+      </div>
+    </div>
+
+    <hr class="mb-8" />
+
+    <!-- Formulario -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+      <!-- Nombre -->
+      <div>
+        <label class="text-gray-700 font-semibold">Nombre</label>
+        <input 
+          type="text"
+          value="Felipe"
+          class="w-full mt-1 p-3 bg-gray-100 border rounded-lg outline-none"
+        >
+      </div>
+
+      <!-- Apellido -->
+      <div>
+        <label class="text-gray-700 font-semibold">Apellido</label>
+        <input 
+          type="text"
+          value="Osorio"
+          class="w-full mt-1 p-3 bg-gray-100 border rounded-lg outline-none"
+        >
+      </div>
+      <!-- Edad -->
+      <div class="md:col-span-2">
+        <label class="text-gray-700 font-semibold">Edad</label>
+        <input 
+          type="number"
+          value="27"
+          class="w-full mt-1 p-3 bg-gray-100 border rounded-lg outline-none"
+        >
+      </div>
+
+      <!-- Correo -->
+      <div class="md:col-span-2">
+        <label class="text-gray-700 font-semibold">Correo Electrónico</label>
+        <input 
+          type="email"
+          value="osorioescobardavidfelipe@gmail.com"
+          class="w-full mt-1 p-3 bg-gray-100 border rounded-lg outline-none"
+        >
+      </div>
+
+      <!-- Teléfono -->
+      <div class="md:col-span-2">
+        <label class="text-gray-700 font-semibold">Teléfono</label>
+        <input 
+          type="text"
+          value="3144681467"
+          class="w-full mt-1 p-3 bg-gray-100 border rounded-lg outline-none"
+        >
+      </div>
+    </div>
+
+    <!-- Botón -->
+    <button
+      class="w-full mt-8 py-3 text-white font-semibold rounded-xl 
+             bg-linear-to-r from-blue-600 to-purple-600">
+      Editar Perfil
+    </button>
+
+  </div>
+
+</body>
+</html>
