@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             console.log("📤 Enviando datos al backend...");
 
-            const res = await fetch("http://localhost:8081/api/recuperar/cambiar-password", {
+            const res = await fetch("https://ecommer-f99c.onrender.com/api/recuperar/cambiar-password", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

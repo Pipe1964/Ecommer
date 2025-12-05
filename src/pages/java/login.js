@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function(){
     console.log('✅ pagina cargada correcta - sistema listo');
     // creamos la constante de la Api
 
-    const API_URL="http://localhost:8081/api/login";
+    const API_URL="https://ecommer-f99c.onrender.com/api/login";
 
     // enviar los datos del formulario
 

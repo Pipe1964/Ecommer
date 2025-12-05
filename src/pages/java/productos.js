@@ -1,6 +1,6 @@
 async function cargarProductos() {
     try {
-        const response = await fetch('http://localhost:8081/api/Productos');
+        const response = await fetch('https://ecommer-f99c.onrender.com/api/Productos');
         const productos = await response.json();
 
         const grid = document.getElementById('products-grid');

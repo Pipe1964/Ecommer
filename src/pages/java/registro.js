@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     console.log("Página de registro lista.");
 
-    const API_URL = "http://localhost:8081/api/user/register";
+    const API_URL = "https://ecommer-f99c.onrender.com/api/user/register";
 
     document.getElementById("register-form").addEventListener("submit", async function (e) {
         e.preventDefault();
