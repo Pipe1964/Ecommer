@@ -1,17 +1,30 @@
 document.addEventListener("DOMContentLoaded", async () => {
+    console.log("🟢 perfil.js cargado correctamente");
+
+    // Verificar sesión
     const sesionActiva = localStorage.getItem("sesionActiva");
-    const contenedor = document.getElementById("user-menu-container");
+    if (!sesionActiva) {
+        console.log("❌ No hay sesión activa");
+        window.location.href = "login.html";
+        return;
+    }
 
-    if (!contenedor) return;
-    if (!sesionActiva) return;
-
-    // Traer datos del usuario guardado en localStorage
     const perfil = JSON.parse(localStorage.getItem("usuario"));
-    if (!perfil || !perfil.email) return;
+    if (!perfil || !perfil.email) {
+        console.log("❌ No hay datos de usuario");
+        window.location.href = "login.html";
+        return;
+    }
+
+    console.log("✅ Usuario encontrado:", perfil);
 
     let usuario = null;
+    let telefonoOriginal = null; // Para restaurar si cancela
 
+    // Obtener datos del perfil desde el backend
     try {
+        console.log("📡 Consultando perfil al backend...");
+        
         const res = await fetch("http://localhost:8081/api/perfil/obtener", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -19,95 +32,132 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
 
         const data = await res.json();
+        console.log("📥 Respuesta del backend:", data);
+
         if (!res.ok) throw new Error("No se pudo obtener perfil");
         usuario = data.usuario;
 
     } catch (err) {
-        console.error("Error al obtener el perfil", err);
-        localStorage.clear();
-        window.location.href = "../pages/login.html";
+        console.error("❌ Error al obtener el perfil:", err);
+        alert("Error al cargar el perfil: " + err.message);
         return;
     }
 
-    // Crear el menú del usuario
-      contenedor.innerHTML=`
-    <div class= "relative">
-    <button id="user-menu-btn"
-    class="w-14 h-14 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xl shadow-md hover:scale-105 transition-transform">
-    <span id="user-avatar"></span>
-    </button>
+    
 
-    <div id="user-dropdown"
-                class="hidden absolute right-0 mt-2 w-60 bg-white rounded-xl shadow-2xl border border-gray-100 py-2 z-50 
-                       transition-all duration-200 ease-out overflow-hidden transform origin-top scale-95 opacity-0">
 
-                <div class="px-4 py-3 border-b border-gray-200">
-                    <p class="text-sm font-semibold text-gray-900" id="user-name"></p>
-                    <p class="text-xs text-gray-500" id="user-email"></p>
-                </div>
+    // Llenar los campos del formulario
+    document.getElementById("usuario").value = usuario.usuario || "";
+    document.getElementById("email").value = usuario.email || "";
+    document.getElementById("telefono").value = usuario.telefono || "";
+    
+    telefonoOriginal = usuario.telefono; // Guardar valor original
 
-                <a href="../pages/perfil.html"
-                    class="flex items-center px-4 py-3 text-sm text-gray-700 
-                           hover:bg-blue-100 hover:text-blue-800 
-                           active:bg-blue-200 transition-all duration-150 rounded-md cursor-pointer">
-                    Mi Perfil
-                </a>
+    // Actualizar el header
+    document.getElementById("nombre-completo").textContent = usuario.usuario || "Usuario";
+    document.getElementById("email-header").textContent = usuario.email;
 
-                <button id="logout-btn"
-                    class="flex items-center w-full px-4 py-3 text-sm text-gray-600
-                           hover:bg-blue-100 hover:text-blue-800 
-                           active:bg-blue-200 transition-all duration-150 rounded-md cursor-pointer">
-                    Cerrar sesión
-                </button>
-            </div>
-        </div>
-    `;
+    // Avatar con iniciales
+    const iniciales = usuario.usuario?.slice(0, 2).toUpperCase() || "US";
+    document.getElementById("avatar-perfil").textContent = iniciales;
 
-    // --- INSERTAR DATOS EN EL MENÚ ---
-    document.getElementById("user-name").textContent =
-        `${usuario.email}`;
+    console.log("✅ Perfil cargado exitosamente");
 
-    document.getElementById("user-email").textContent = usuario.email;
+    // Referencias a elementos
+    const btnEditar = document.getElementById("btn-editar");
+    const botonesAccion = document.getElementById("botones-accion");
+    const btnCancelar = document.getElementById("btn-cancelar");
+    const inputTelefono = document.getElementById("telefono");
+    const form = document.getElementById("form-editar-perfil");
 
-    const avatar = usuario.email.slice(0, 2).toUpperCase();
-     document.getElementById("user-avatar").textContent = avatar;
- 
-
-    // Animación abrir/cerrar
-    document.getElementById("user-menu-btn").addEventListener("click", () => {
-        const drop = document.getElementById("user-dropdown");
+    // Botón "Editar Perfil" - Habilita el campo
+    btnEditar.addEventListener("click", () => {
+        console.log("✏️ Modo edición activado");
         
-        if (drop.classList.contains("hidden")) {
-            drop.classList.remove("hidden");
-            setTimeout(() => {
-                drop.classList.remove("opacity-0", "scale-95");
-                drop.classList.add("opacity-100", "scale-100");
-            }, 20);
-        } else {
-            drop.classList.remove("opacity-100", "scale-100");
-            drop.classList.add("opacity-0", "scale-95");
-            setTimeout(() => drop.classList.add("hidden"), 150);
-        }
+        // Habilitar campo de teléfono
+        inputTelefono.disabled = false;
+        inputTelefono.focus();
+        
+        // Cambiar apariencia del campo
+        inputTelefono.classList.remove("bg-gray-100");
+        inputTelefono.classList.add("bg-white", "border-blue-500");
+        
+        // Ocultar botón "Editar Perfil" y mostrar "Guardar/Cancelar"
+        btnEditar.classList.add("hidden");
+        botonesAccion.classList.remove("hidden");
     });
 
-});
+    // Botón "Cancelar" - Restaura el valor original
+    btnCancelar.addEventListener("click", () => {
+        console.log("❌ Edición cancelada");
+        
+        // Restaurar valor original
+        inputTelefono.value = telefonoOriginal;
+        
+        // Deshabilitar campo
+        inputTelefono.disabled = true;
+        inputTelefono.classList.remove("bg-white", "border-blue-500");
+        inputTelefono.classList.add("bg-gray-100");
+        
+        // Volver a mostrar botón "Editar Perfil"
+        btnEditar.classList.remove("hidden");
+        botonesAccion.classList.add("hidden");
+    });
 
-// CERRAR SESIÓN + TOAST
-document.addEventListener("click", (e) => {
-    if (e.target.id === "logout-btn") {
+    // Formulario - Guardar cambios
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        console.log("📝 Guardando cambios...");
 
-        localStorage.clear();
+        const datosActualizados = {
+            email: usuario.email,
+            telefono: parseInt(document.getElementById("telefono").value)
+        };
 
-        const toast = document.getElementById("logout-toast");
+        console.log("📤 Datos a enviar:", datosActualizados);
 
-        toast.classList.remove("hidden");
-        setTimeout(() => toast.classList.add("opacity-100"), 20);
+        try {
+            const res = await fetch("http://localhost:8081/api/perfil/actualizar", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(datosActualizados)
+            });
 
-        setTimeout(() => {
-            toast.classList.remove("opacity-100");
+            const data = await res.json();
+            console.log("📥 Respuesta actualización:", data);
+
+            if (!res.ok) {
+                throw new Error(data.message || "Error al actualizar");
+            }
+
+            // Actualizar el valor original
+            telefonoOriginal = datosActualizados.telefono;
+
+            // Deshabilitar campo
+            inputTelefono.disabled = true;
+            inputTelefono.classList.remove("bg-white", "border-blue-500");
+            inputTelefono.classList.add("bg-gray-100");
+            
+            // Volver a mostrar botón "Editar Perfil"
+            btnEditar.classList.remove("hidden");
+            botonesAccion.classList.add("hidden");
+
+            // Mostrar toast de éxito
+            const toast = document.getElementById("toast-exito");
+            toast.classList.remove("hidden");
+            setTimeout(() => toast.classList.add("opacity-100"), 20);
+
+            console.log("✅ Perfil actualizado exitosamente");
+
+            // Ocultar toast después de 3 segundos
             setTimeout(() => {
-                window.location.href = "../pages/login.html";
-            }, 500);
-        }, 1800);
-    }
+                toast.classList.remove("opacity-100");
+                setTimeout(() => toast.classList.add("hidden"), 300);
+            }, 3000);
+
+        } catch (err) {
+            console.error("❌ Error al actualizar:", err);
+            alert("Error al actualizar el perfil: " + err.message);
+        }
+    });
 });

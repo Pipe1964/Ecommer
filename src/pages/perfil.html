@@ -3,91 +3,111 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../style/output.css">
+  <script src="https://cdn.tailwindcss.com"></script>
   <title>Perfil</title>
 </head>
-<body class="bg-gray-100 flex justify-center py-10">
+<body class="bg-gray-100 min-h-screen flex items-center justify-center py-10">
 
   <div class="bg-white shadow-xl rounded-2xl p-10 w-full max-w-3xl">
 
     <!-- Encabezado -->
     <div class="flex items-center gap-4 mb-8">
-      <div
-        class="w-20 h-20 rounded-full bg-linear-to-r from-blue-600 to-purple-500 
+      <div id="avatar-perfil"
+        class="w-20 h-20 rounded-full bg-gradient-to-r from-blue-600 to-purple-500 
                flex items-center justify-center text-white text-3xl font-bold">
-               
-        FO
+        US
       </div>
 
       <div>
-        <h2 class="text-2xl font-bold">Felipe Osorio</h2>
-        <p class="text-gray-500">osorioescobardavidfelipe@gmail.com</p>
+        <h2 id="nombre-completo" class="text-2xl font-bold">Cargando...</h2>
+        <p id="email-header" class="text-gray-500">Cargando...</p>
       </div>
     </div>
 
     <hr class="mb-8" />
 
     <!-- Formulario -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <form id="form-editar-perfil">
+      <div class="grid grid-cols-1 gap-6">
 
-      <!-- Nombre -->
-      <div>
-        <label class="text-gray-700 font-semibold">Nombre</label>
-        <input 
-          type="text"
-          value="Felipe"
-          class="w-full mt-1 p-3 bg-gray-100 border rounded-lg outline-none"
-        >
+        <!-- Usuario (solo lectura) -->
+        <div>
+          <label class="text-gray-700 font-semibold block mb-2">Usuario</label>
+          <input 
+            id="usuario"
+            type="text"
+            placeholder="Usuario"
+            class="w-full p-3 bg-gray-200 border rounded-lg outline-none cursor-not-allowed"
+            readonly
+          >
+        </div>
+
+        <!-- Correo (solo lectura) -->
+        <div>
+          <label class="text-gray-700 font-semibold block mb-2">Correo Electrónico</label>
+          <input 
+            id="email"
+            type="email"
+            placeholder="Email"
+            class="w-full p-3 bg-gray-200 border rounded-lg outline-none cursor-not-allowed"
+            readonly
+          >
+        </div>
+
+        <!-- Teléfono (editable) -->
+        <div>
+          <label class="text-gray-700 font-semibold block mb-2">Teléfono</label>
+          <input 
+            id="telefono"
+            type="number"
+            placeholder="Teléfono"
+            class="w-full p-3 bg-gray-100 border border-gray-300 rounded-lg outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+            disabled
+          >
+        </div>
       </div>
 
-      <!-- Apellido -->
-      <div>
-        <label class="text-gray-700 font-semibold">Apellido</label>
-        <input 
-          type="text"
-          value="Osorio"
-          class="w-full mt-1 p-3 bg-gray-100 border rounded-lg outline-none"
-        >
-      </div>
-      <!-- Edad -->
-      <div class="md:col-span-2">
-        <label class="text-gray-700 font-semibold">Edad</label>
-        <input 
-          type="number"
-          value="27"
-          class="w-full mt-1 p-3 bg-gray-100 border rounded-lg outline-none"
-        >
-      </div>
+      <!-- Botón Editar Perfil (modo inicial) -->
+      <button
+        id="btn-editar"
+        type="button"
+        class="w-full mt-8 py-3 text-white font-semibold rounded-xl 
+               bg-gradient-to-r from-blue-600 to-purple-600 hover:opacity-90 
+               transition-all duration-200 shadow-lg hover:shadow-xl">
+        Editar Perfil
+      </button>
 
-      <!-- Correo -->
-      <div class="md:col-span-2">
-        <label class="text-gray-700 font-semibold">Correo Electrónico</label>
-        <input 
-          type="email"
-          value="osorioescobardavidfelipe@gmail.com"
-          class="w-full mt-1 p-3 bg-gray-100 border rounded-lg outline-none"
-        >
+      <!-- Botones Guardar/Cancelar (ocultos inicialmente) -->
+      <div id="botones-accion" class="hidden grid grid-cols-2 gap-4 mt-8">
+        <button
+          type="submit"
+          class="py-3 text-white font-semibold rounded-xl 
+                 bg-green-600 hover:bg-green-700 
+                 transition-all duration-200 shadow-lg hover:shadow-xl">
+          Guardar Cambios
+        </button>
+        
+        <button
+          id="btn-cancelar"
+          type="button"
+          class="py-3 text-white font-semibold rounded-xl 
+                 bg-gray-600 hover:bg-gray-700 
+                 transition-all duration-200 shadow-lg hover:shadow-xl">
+          Cancelar
+        </button>
       </div>
-
-      <!-- Teléfono -->
-      <div class="md:col-span-2">
-        <label class="text-gray-700 font-semibold">Teléfono</label>
-        <input 
-          type="text"
-          value="3144681467"
-          class="w-full mt-1 p-3 bg-gray-100 border rounded-lg outline-none"
-        >
-      </div>
-    </div>
-
-    <!-- Botón -->
-    <button
-      class="w-full mt-8 py-3 text-white font-semibold rounded-xl 
-             bg-linear-to-r from-blue-600 to-purple-600">
-      Editar Perfil
-    </button>
+    </form>
 
   </div>
+
+  <!-- Toast de éxito -->
+  <div id="toast-exito" 
+       class="hidden fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg transition-opacity duration-300 opacity-0">
+    ✓ Perfil actualizado exitosamente
+  </div>
+
+  <!-- ENLAZAR EL JAVASCRIPT -->
+  <script src="/src/pages/java/perfil.js"></script>
 
 </body>
 </html>
