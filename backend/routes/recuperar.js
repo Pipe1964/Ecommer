@@ -1,5 +1,5 @@
 import express from 'express';
-import { solicitarcodigo,cambiarpassword } from '../controllers/recuperar.js';
+import { solicitarcodigo, cambiarpassword } from '../controllers/recuperar.js';
 
 const router = express.Router();
 
