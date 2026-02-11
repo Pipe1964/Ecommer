@@ -1,12 +1,16 @@
 import bcrypt from 'bcrypt';
 import nodemailer from 'nodemailer';
 import user from '../models/user.js';
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-        user: 'osorioescobardavidfelipe@gmail.com',
-        pass: 'ovxuoiofrkytqvrj' // 
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+        
     }
 });
 

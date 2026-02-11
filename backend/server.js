@@ -29,3 +29,10 @@ app.use("/api/recuperar",recuperarpassword );
 app.use("/api/pedidos",pedidosRoutes );
 
 app.listen(8081,()=> console.log('servidor corriendo en http://localhost:8081'));
+
+// configurar cors
+
+app.use(cors({
+    origin: 'http://localhost:5173', 
+    credentials: true
+}));
