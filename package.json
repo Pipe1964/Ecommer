@@ -13,6 +13,10 @@
   "license": "ISC",
   "dependencies": {
     "@tailwindcss/cli": "^4.1.16",
-    "tailwindcss": "^4.1.16"
+    "@tailwindcss/vite": "^4.1.18",
+    "axios": "^1.13.5",
+    "lucide-react": "^0.563.0",
+    "react-router-dom": "^7.13.0",
+    "tailwindcss": "^4.1.18"
   }
 }
