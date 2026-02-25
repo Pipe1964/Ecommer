@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Verificar Código</title>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-50 flex items-center justify-center py-12">
+
+  <div class="bg-white shadow-2xl rounded-2xl w-full max-w-md px-12 py-14">
+
+    <!-- ICONO -->
+    <div class="w-16 h-16 mx-auto rounded-full flex items-center justify-center
+                bg-gradient-to-r from-green-500 to-blue-600 mb-6 text-white shadow-lg">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+           viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+           class="w-8 h-8">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M9 12l2 2 4-4m6 2a10 10 0 11-20 0 10 10 0 0120 0z" />
+      </svg>
+    </div>
+
+    <h2 class="text-3xl font-bold text-center text-gray-900 mb-2">
+      Verificar Código
+    </h2>
+
+    <p class="text-gray-600 text-center mb-8">
+      Ingresa el código enviado a 
+      <span id="email-mostrar" class="text-blue-600 font-medium">tu@email.com</span>
+    </p>
+
+    <form id="form-verificar" class="space-y-6">
+
+      <div>
+        <label class="block text-gray-700 font-semibold mb-2">
+          Código de Verificación
+        </label>
+        <input 
+          id="codigo"
+          type="text" 
+          placeholder="000000"
+          maxlength="6"
+          class="w-full text-center tracking-widest text-2xl px-4 py-3 
+                 border border-gray-300 rounded-lg
+                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                 transition"
+          required
+        >
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-semibold mb-2">
+          Nueva Contraseña
+        </label>
+        <input 
+          id="nueva-password"
+          type="password" 
+          placeholder="Mínimo 6 caracteres"
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg
+                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                 transition"
+          required
+        >
+      </div>
+
+      <div>
+        <label class="block text-gray-700 font-semibold mb-2">
+          Confirmar Contraseña
+        </label>
+        <input 
+          id="confirmar-password"
+          type="password" 
+          placeholder="Repite la contraseña"
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg
+                 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                 transition"
+          required
+        >
+      </div>
+
+      <button 
+        id="btn-cambiar"
+        type="submit"
+        class="w-full py-3 text-white font-semibold rounded-lg
+               bg-gradient-to-r from-green-500 to-blue-600
+               hover:from-green-600 hover:to-blue-700
+               transition-all duration-200 shadow-lg hover:shadow-xl
+               transform hover:scale-105">
+        Cambiar Contraseña
+      </button>
+
+    </form>
+
+    <!-- Enlace para reenviar código -->
+    <div class="text-center mt-6">
+      <a href="recuperar.html" class="text-blue-600 hover:underline text-sm">
+        ¿No recibiste el código? Reenviar
+      </a>
+    </div>
+
+  </div>
+
+  <!-- ENLAZAR JAVASCRIPT -->
+<script src="java/verificar.js"></script>
+</body>
+</html>
