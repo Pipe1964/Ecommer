@@ -1,14 +1,22 @@
 import express from "express";
-import { crearProducto, obtenerProductos } from "../controllers/Productos.js";
+import { verificarToken, soloAdmin } from "../middlewares/authMiddleware.js"; 
+import { crearProducto, obtenerProductos, actualizarProducto, eliminarProducto } from "../controllers/Productos.js";
 
 const router=express.Router();
 
-// Ruta para crear producto
+// Ver productos (user y admin)
 
-router.post("/", crearProducto);
+router.get("/", obtenerProductos);
 
-// Ruta para obtener todos los productos
+// Crear
+router.post("/", verificarToken, soloAdmin, crearProducto);
 
-router.get("/",obtenerProductos);
+// actualizar
+
+router.put("/:id", verificarToken, soloAdmin, actualizarProducto);
+
+// eliminar
+
+router.delete("/:id", verificarToken, soloAdmin, eliminarProducto);
 
 export default router;

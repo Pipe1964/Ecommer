@@ -5,12 +5,17 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true, minlength: 10 },
   email: { type: String, required: true, unique: true },
   telefono: { type: Number, required: true, minlength: 10 },
-  
+ rol: {
+  type: String,
+  enum: ['user', 'admin'],
+  default: 'user'
+},
   // Campos para recuperación de contraseña
-  codigoRecuperacion: { type: String },
-  expiracionCodigo: { type: Date }
+  codigoRecuperacion: String,
+  expiracionCodigo:  Date 
 });
 
-const user = mongoose.model('user', userSchema, "user");
+const users = mongoose.model('users', userSchema, "users");
 
-export default user;
+export default users;
+

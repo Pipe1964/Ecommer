@@ -37,5 +37,42 @@ export const obtenerProductos=async (req,res)=>{
     
 }
 
+// Actualizar producto
+export const actualizarProducto = async (req, res) => {
+  try {
+    const { id } = req.params;
 
-export default Productos;
+    const productoActualizado = await Productos.findByIdAndUpdate(
+      id,
+      req.body,
+      { new: true }
+    );
+
+    if (!productoActualizado) {
+      return res.status(404).json({ message: "Producto no encontrado" });
+    }
+
+    res.json({ message: "Producto actualizado", productoActualizado });
+  } catch (error) {
+    res.status(500).json({ message: "Error al actualizar el producto" });
+  }
+};
+
+// Eliminar producto
+export const eliminarProducto = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const productoEliminado = await Productos.findByIdAndDelete(id);
+
+    if (!productoEliminado) {
+      return res.status(404).json({ message: "Producto no encontrado" });
+    }
+
+    res.json({ message: "Producto eliminado correctamente" });
+  } catch (error) {
+    res.status(500).json({ message: "Error al eliminar el producto" });
+  }
+};
+
+
