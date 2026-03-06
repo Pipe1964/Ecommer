@@ -1,39 +1,38 @@
-import express from 'express';
-import cors from 'cors';
+import express  from "express";
+import cors     from "cors";
+import dotenv   from "dotenv";
 import "./db/db.js";
-import productosroute from "./routes/Productos.js";
-import userRouter from "./routes/user.js";
-import { loginusuario } from './controllers/login.js';  
-import obtenerperfil from './routes/perfil.js';
-import recuperarpassword from './routes/recuperar.js';
-import pedidosRoutes from './routes/pedidos.js';
-import adminRoutes from './routes/admin.js';
 
+import userRoutes      from "./routes/user.js";
+import loginRoutes     from "./routes/login.js";
+import recuperarRoutes from "./routes/recuperar.js";
+import productosRoutes from "./routes/Productos.js";
+import perfilRoutes    from "./routes/perfil.js";
+import pedidosRoutes   from "./routes/pedidos.js";
+import adminRoutes     from "./routes/admin.js";
+import contactoRoutes from "./routes/contacto.js";
 
-//habilitar express
-const app =express();
-//habilitar las rutas
-app.use(cors());
-app.use(express.json());
+dotenv.config();
 
-//primera ruta
-app.get("/",(req,res)=>{
-    res.send('Bienvenido al curso de node express');
-});
+const app  = express();
+const PORT = process.env.PORT || 8081;
 
-app.use("/api/productos",productosroute)
-app.use("/api/user",userRouter);
-app.use("/api/login",loginusuario);
-app.use("/api/perfil",obtenerperfil );
-app.use("/api/recuperar",recuperarpassword );
-app.use("/api/pedidos",pedidosRoutes );
-app.use("/api/admin", adminRoutes);
+// Middlewares
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(express.json({ limit: "10mb" }));   // limite alto para imágenes Base64
+app.use(express.urlencoded({ extended: true }));
 
-app.listen(8081,()=> console.log('servidor corriendo en http://localhost:8081'));
+// Rutas
+app.use("/api/users",     userRoutes);
+app.use("/api/login",     loginRoutes);
+app.use("/api/recuperar", recuperarRoutes);
+app.use("/api/productos", productosRoutes);
+app.use("/api/perfil",    perfilRoutes);
+app.use("/api/pedidos",   pedidosRoutes);
+app.use("/api/admin",     adminRoutes);
+app.use("/api/contacto", contactoRoutes);
 
-// configurar cors
+// Health check
+app.get("/", (req, res) => res.json({ message: "🚀 TechStore API funcionando" }));
 
-app.use(cors({
-    origin: 'http://localhost:5173', 
-    credentials: true
-}));
+app.listen(PORT, () => console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`));
